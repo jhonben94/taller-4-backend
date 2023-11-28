@@ -13,32 +13,32 @@ import org.springframework.data.domain.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import py.edu.ucom.taller.config.IDAO;
-import py.edu.ucom.taller.entities.Estudiante;
-import py.edu.ucom.taller.repositories.EstudianteRepository;
+import py.edu.ucom.taller.entities.Cursos;
+import py.edu.ucom.taller.repositories.CursosRepository;
 
 @ApplicationScoped
-public class EstudianteService implements IDAO<Estudiante, Integer> {
+public class CursosService implements IDAO<Cursos, Integer> {
 
-    private static final Logger LOG = Logger.getLogger(EstudianteService.class);
+    private static final Logger LOG = Logger.getLogger(CursosService.class);
 
     @Inject
-    private EstudianteRepository repository;
+    private CursosRepository repository;
 
     @Override
-    public Estudiante obtener(Integer param) {
+    public Cursos obtener(Integer param) {
         // TODO Auto-generated method stub
-        // Estudiante m = new Estudiante(1, "TEST", "TEST");
+        // Cursos m = new Cursos(1, "TEST", "TEST");
         return this.repository.findById(param).orElse(null);
     }
 
     @Override
-    public Estudiante agregar(Estudiante param) {
+    public Cursos agregar(Cursos param) {
         // TODO Auto-generated method stub
         return this.repository.save(param);
     }
 
     @Override
-    public Estudiante modificar(Estudiante param) {
+    public Cursos modificar(Cursos param) {
         // TODO Auto-generated method stub
         return this.repository.save(param);
     }
@@ -50,8 +50,13 @@ public class EstudianteService implements IDAO<Estudiante, Integer> {
     }
 
     @Override
-    public List<Estudiante> listar() {
+    public List<Cursos> listar() {
         return this.repository.findAll();
     }
+
+    public List<Cursos> listarCursosPorDocente(Integer idDocente, Integer idEntidadEducativa) {
+
+        return this.repository.obtenerCursosPorDocente(idDocente, idEntidadEducativa);
+    } 
 
 }

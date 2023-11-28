@@ -20,6 +20,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -32,7 +33,8 @@ import jakarta.persistence.Table;
     @NamedQuery(name = "Docente.findByIdDocente", query = "SELECT d FROM Docente d WHERE d.idDocente = :idDocente"),
     @NamedQuery(name = "Docente.findByNombres", query = "SELECT d FROM Docente d WHERE d.nombres = :nombres"),
     @NamedQuery(name = "Docente.findByApellidos", query = "SELECT d FROM Docente d WHERE d.apellidos = :apellidos"),
-    @NamedQuery(name = "Docente.findByDocumento", query = "SELECT d FROM Docente d WHERE d.documento = :documento")})
+    @NamedQuery(name = "Docente.findByDocumento", query = "SELECT d FROM Docente d WHERE d.documento = :documento"),
+    @NamedQuery(name = "Docente.findByCodigoUsuario", query = "SELECT d FROM Docente d WHERE d.codigoUsuario = :codigoUsuario")})
 public class Docente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +51,17 @@ public class Docente implements Serializable {
     private String apellidos;
     @Column(name = "documento")
     private String documento;
+    @Basic(optional = false)
+    @Column(name = "codigo_usuario")
+    private String codigoUsuario;
+    
+    @JsonIgnore
     @JoinTable(name = "docente_entidades_educativas", joinColumns = {
         @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
         @JoinColumn(name = "id_entidad_educativa", referencedColumnName = "id_entidad_educativa")})
     @ManyToMany
     private List<EntidadEducativa> entidadEducativaList;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDocente")
     private List<Cursos> cursosList;
 
@@ -64,10 +72,11 @@ public class Docente implements Serializable {
         this.idDocente = idDocente;
     }
 
-    public Docente(Integer idDocente, String nombres, String apellidos) {
+    public Docente(Integer idDocente, String nombres, String apellidos, String codigoUsuario) {
         this.idDocente = idDocente;
         this.nombres = nombres;
         this.apellidos = apellidos;
+        this.codigoUsuario = codigoUsuario;
     }
 
     public Integer getIdDocente() {
@@ -100,6 +109,14 @@ public class Docente implements Serializable {
 
     public void setDocumento(String documento) {
         this.documento = documento;
+    }
+
+    public String getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(String codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     public List<EntidadEducativa> getEntidadEducativaList() {
@@ -140,7 +157,7 @@ public class Docente implements Serializable {
 
     @Override
     public String toString() {
-        return "py.edu.ucom.taller.entities.Docente[ idDocente=" + idDocente + " ]";
+        return "com.mycompany.mavenproject1.Docente[ idDocente=" + idDocente + " ]";
     }
     
 }

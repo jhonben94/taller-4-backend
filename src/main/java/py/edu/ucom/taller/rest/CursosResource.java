@@ -12,17 +12,17 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import py.edu.ucom.taller.config.Globales;
-import py.edu.ucom.taller.entities.Estudiante;
-import py.edu.ucom.taller.services.EstudianteService;
+import py.edu.ucom.taller.entities.Cursos;
+import py.edu.ucom.taller.services.CursosService;
 
-@Path("/estudiante")
-public class EstudianteResource {
+@Path("/cursos")
+public class CursosResource {
     
     @Inject
-    public EstudianteService service;
+    public CursosService service;
 
     @GET
-    public List<Estudiante> listar(){
+    public List<Cursos> listar(){
         return this.service.listar();
     }
     @DELETE
@@ -31,17 +31,24 @@ public class EstudianteResource {
         this.service.eliminar(id);
     }
     @POST
-    public Estudiante agregar (Estudiante param){
+    public Cursos agregar (Cursos param){
         return this.service.agregar(param);
     }
     @PUT
-    public Estudiante modificar (Estudiante param){
+    public Cursos modificar (Cursos param){
         return this.service.modificar(param);
     }
     @GET
     @Path("{id}")
     public Response obtener(@PathParam("id")Integer param) throws Exception{
-        Estudiante entity = this.service.obtener(param);
+        Cursos entity = this.service.obtener(param);
+       
+        return Response.ok(entity).build();     
+    }
+    @GET
+    @Path("/{idDocente}/{idEE}")
+    public Response obtener(@PathParam("idDocente")Integer param, @PathParam("idEE")Integer param2 ) throws Exception{
+        List<Cursos> entity = this.service.listarCursosPorDocente(param,param2);
        
         return Response.ok(entity).build();     
     }

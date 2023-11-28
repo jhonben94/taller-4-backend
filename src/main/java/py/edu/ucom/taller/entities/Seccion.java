@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -42,6 +43,8 @@ public class Seccion implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
+
+    @JsonIgnore
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne(optional = false)
     private Cursos idCurso;

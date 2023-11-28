@@ -19,6 +19,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -49,14 +50,19 @@ public class Cursos implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
+    @JsonIgnore
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne(optional = false)
     private Docente idDocente;
+    
+    @JsonIgnore
     @JoinColumn(name = "id_entidad_educativa", referencedColumnName = "id_entidad_educativa")
     @ManyToOne(optional = false)
     private EntidadEducativa idEntidadEducativa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCurso")
     private List<Seccion> seccionList;
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cursos")
     private List<RegistroAlumnosCurso> registroAlumnosCursoList;
 

@@ -7,7 +7,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/hello")
-@RolesAllowed("admin")
 public class GreetingResource {
 
     @GET
