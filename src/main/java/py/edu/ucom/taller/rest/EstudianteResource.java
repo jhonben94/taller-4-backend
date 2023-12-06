@@ -13,14 +13,17 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import py.edu.ucom.taller.config.Globales;
 import py.edu.ucom.taller.entities.Estudiante;
+import py.edu.ucom.taller.params.AltaEstudianteCursoParam;
 import py.edu.ucom.taller.services.EstudianteService;
+import py.edu.ucom.taller.services.RegistroAlumnoCursoService;
 
 @Path("/estudiante")
 public class EstudianteResource {
     
     @Inject
     public EstudianteService service;
-
+    @Inject
+    public RegistroAlumnoCursoService serviceAlta;
     @GET
     public List<Estudiante> listar(){
         return this.service.listar();
@@ -44,5 +47,11 @@ public class EstudianteResource {
         Estudiante entity = this.service.obtener(param);
        
         return Response.ok(entity).build();     
+    }
+    @POST
+    @Path("proceso-alta")
+    public Response procesoAltaEstudiante (AltaEstudianteCursoParam param){
+        
+        return Response.ok(this.serviceAlta.procesoAltaEstudianteCurso(param)).build();     
     }
 }
